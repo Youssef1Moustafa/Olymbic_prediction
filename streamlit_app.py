@@ -1,45 +1,47 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import pickle
+import os
 
-# Load the model
-with open('best_model.pkl', 'rb') as f:
-    model = pickle.load(f)
+# Load the model with error handling
+model_path = 'best_model.pkl'
+if os.path.exists(model_path):
+    with open(model_path, 'rb') as f:
+        model = pickle.load(f)
+    st.success("Model loaded successfully!")
+else:
+    st.error("Model file not found! Make sure 'model.pkl' is uploaded correctly.")
+    st.stop()  # Stop the app if the model isn't found
 
-# Check if the loaded object is a valid model
-if not hasattr(model, 'predict'):
-    st.error("The loaded object is not a valid model!")
-    st.stop()
-
-# Streamlit app title
+# Define the Streamlit app
 st.title("Sports Outcome Prediction")
 
-# Input fields
+st.write("Enter the following information to predict the outcome:")
+
+# Input fields for the four features
 noc = st.number_input("NOC", min_value=0, step=1)
 country = st.number_input("Country", min_value=0, step=1)
 sport = st.number_input("Sport", min_value=0, step=1)
 event = st.number_input("Event", min_value=0, step=1)
 
-# Prediction logic
+# Make sure inputs are valid before making a prediction
 if st.button("Predict Outcome"):
-    input_data = pd.DataFrame([[noc, country, sport, event]], 
-                              columns=['NOC', 'Country', 'Sport', 'Event'])
-    
-    prediction = model.predict(input_data)[0]
-    result = 'Won' if prediction == 1 else 'Not Won'
-    st.write(f"Predicted Outcome: {result}")
+    try:
+        # Prepare the input data as a DataFrame
+        input_data = pd.DataFrame([[noc, country, sport, event]], 
+                                  columns=['NOC', 'Country', 'Sport', 'Event'])
 
-# Example DataFrame for the histogram (replace with your actual data)
-data = {'Sport': ['Athletics', 'Swimming', 'Basketball', 'Football', 
-                  'Gymnastics', 'Hockey', 'Tennis', 'Boxing', 'Wrestling', 'Cycling'],
-        'count': [230, 150, 100, 120, 180, 140, 90, 80, 75, 110]}
-top_sport = pd.DataFrame(data)
+        # Debugging: Print input data to ensure it's correct
+        st.write("Input Data:", input_data)
 
-# Create Plotly histogram
-fig = px.histogram(top_sport, x='Sport', y='count',
-                   title='Top 10 Sports',
-                   labels={'Sport': 'Sport', 'count': 'Count'})
+        # Make prediction using the model
+        prediction = model.predict(input_data)[0]
 
-# Display the chart in Streamlit
-st.plotly_chart(fig)
+        # Display the result
+        st.write(f"Predicted Outcome: {'Won' if prediction == 1 else 'Not Won'}")
+
+    except AttributeError as e:
+        st.error(f"Prediction failed: {e}")
+        st.stop()
+    except Exception as e:
+        st.error(f"An unexpected error occurred: {e}")
