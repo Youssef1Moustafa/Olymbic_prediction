@@ -19,10 +19,10 @@ st.title("Sports Outcome Prediction")
 st.write("Enter the following information to predict the outcome:")
 
 # Input fields for the four features
-noc = st.number_input("NOC Code", min_value=0, step=1)
-country = st.number_input("Country Code", min_value=0, step=1)
-sport = st.number_input("Sport Code", min_value=0, step=1)
-event = st.number_input("Event Code", min_value=0, step=1)
+noc = st.number_input("NOC", min_value=0, step=1)
+country = st.number_input("Country", min_value=0, step=1)
+sport = st.number_input("Sport", min_value=0, step=1)
+event = st.number_input("Event", min_value=0, step=1)
 
 # Make sure inputs are valid before making a prediction
 if st.button("Predict Outcome"):
