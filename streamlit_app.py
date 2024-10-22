@@ -4,7 +4,7 @@ import pickle
 import os
 
 # Load the model with error handling
-model_path = 'est_model.pkl'
+model_path = 'best_model.pkl'
 if os.path.exists(model_path):
     with open(model_path, 'rb') as f:
         model = pickle.load(f)
