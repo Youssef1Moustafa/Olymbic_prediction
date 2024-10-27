@@ -38,14 +38,14 @@ event_mapping ={"Basketball Men's Basketball": 0, "Judo Men's Extra-Lightweight"
 st.title("Sports Outcome Prediction App")
 
 # Collect user inputs
-noc = st.number_input("Enter NOC (Numeric Code for National Olympic Committee)", min_value=0, step=1)
+#noc = st.number_input("Enter NOC (Numeric Code for National Olympic Committee)", min_value=0, step=1)
 
-country = st.selectbox("Select Country", options=country_mapping.keys())
+Noc = st.selectbox("Select Noc", options=Noc_mapping.keys())
 sport = st.selectbox("Select Sport", options=sport_mapping.keys())
 event = st.selectbox("Select Event", options=event_mapping.keys())
 
 # Convert categorical inputs to numerical values using the mappings
-country_encoded = country_mapping[country]
+Noc_encoded = Noc_mapping[Noc]
 sport_encoded = sport_mapping[sport]
 event_encoded = event_mapping[event]
 
@@ -54,8 +54,8 @@ if st.button("Predict Outcome"):
     try:
         # Prepare the input data
         input_data = pd.DataFrame(
-            [[noc, country_encoded, sport_encoded, event_encoded]],
-            columns=['NOC', 'Country', 'Sport', 'Event']
+            [[Noc_encoded, sport_encoded, event_encoded]],
+            columns=['NOC', 'Sport', 'Event']
         )
 
         # Show input data for debugging purposes
