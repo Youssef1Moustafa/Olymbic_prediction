@@ -4,13 +4,18 @@ import pickle
 import requests
 
 # Google Drive direct download link (replace 'FILE_ID' with your actual ID)
-drive_url = "https://drive.google.com/uc?export=download&id=1P4iQFeJ2anMm9It9JrUuOKbgDoKhMYaa"  
+drive_url = "https://drive.google.com/uc?export=download&id=FILE_ID"
 
-# Function to download and save the model locally
+# Function to download the model and check for HTML content
 def download_model(url, filename="best_model.pkl"):
     try:
         response = requests.get(url)
-        response.raise_for_status()  # Check if request was successful
+        response.raise_for_status()  # Ensure the request was successful
+
+        # Check if the response content is HTML (indicates a problem)
+        if response.content[:6] == b'<html>':
+            st.error("Failed to download the model. Check the link or permissions.")
+            st.stop()
 
         # Save the model locally
         with open(filename, "wb") as f:
@@ -32,35 +37,3 @@ try:
 except pickle.UnpicklingError as e:
     st.error(f"Error loading the model: {e}")
     st.stop()
-
-# Define the Streamlit app
-st.title("Sports Outcome Prediction")
-st.write("Enter the following information to predict the outcome:")
-
-# Input fields for the four features
-noc = st.number_input("NOC", min_value=0, step=1)
-country = st.number_input("Country", min_value=0, step=1)
-sport = st.number_input("Sport", min_value=0, step=1)
-event = st.number_input("Event", min_value=0, step=1)
-
-# Make sure inputs are valid before making a prediction
-if st.button("Predict Outcome"):
-    try:
-        # Prepare the input data as a DataFrame
-        input_data = pd.DataFrame([[noc, country, sport, event]], 
-                                  columns=['NOC', 'Country', 'Sport', 'Event'])
-
-        # Debugging: Print input data to ensure it's correct
-        st.write("Input Data:", input_data)
-
-        # Make prediction using the model
-        prediction = model.predict(input_data)[0]
-
-        # Display the result
-        st.write(f"Predicted Outcome: {'Won' if prediction == 1 else 'Not Won'}")
-
-    except AttributeError as e:
-        st.error(f"Prediction failed: {e}")
-        st.stop()
-    except Exception as e:
-        st.error(f"An unexpected error occurred: {e}")
