@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import pickle
-import requests
 import gdown
 
 # Google Drive File ID (replace with your file ID)
@@ -15,6 +14,9 @@ def load_model_from_drive(file_id):
         gdown.download(url, output, quiet=False)
         with open(output, 'rb') as file:
             model = pickle.load(file)
+        # Check if the loaded model is a valid scikit-learn model
+        if not hasattr(model, 'predict'):
+            raise ValueError("Loaded model is not a valid scikit-learn model.")
         return model
     except Exception as e:
         st.error(f"Error loading the model: {str(e)}")
@@ -60,7 +62,7 @@ if st.button("Predict Outcome"):
         st.write("Input Data Preview:", input_data)
 
         # Make a prediction using the loaded model
-        prediction = model.predict(input_data)[0]
+        prediction = model.predict(input_data)[0]  # Ensure prediction is called on the model
 
         # Display the prediction result
         if prediction == 1:
@@ -68,7 +70,7 @@ if st.button("Predict Outcome"):
         else:
             st.warning("Prediction: The team/player may NOT win.")
 
-    except AttributeError as e:
-        st.error(f"Prediction failed: {e}")
+    except ValueError as ve:
+        st.error(f"Prediction failed: {ve}")
     except Exception as e:
         st.error(f"An unexpected error occurred: {e}")
