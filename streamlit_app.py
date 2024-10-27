@@ -4,7 +4,7 @@ import pickle
 import gdown
 
 # Google Drive File ID (replace with your file ID)
-file_id = "1R117iV9NlYYkeOwOpZllMN1xe22EAouZ"
+file_id = "19_D8LCjdJ7z7TuuhLlGOCc5LpK_74hg4"
 
 # Function to download the model
 def load_model_from_drive(file_id):
