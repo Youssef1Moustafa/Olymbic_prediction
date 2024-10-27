@@ -4,7 +4,7 @@ import pickle
 import requests
 
 # Google Drive direct download link (replace 'FILE_ID' with your actual ID)
-drive_url = "https://drive.google.com/uc?export=download&id=FILE_ID"
+drive_url = "https://drive.google.com/uc?export=download&id=1P4iQFeJ2anMm9It9JrUuOKbgDoKhMYaa"
 
 # Function to download the model and check for HTML content
 def download_model(url, filename="best_model.pkl"):
