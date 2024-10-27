@@ -4,11 +4,11 @@ import pickle
 import gdown
 
 # Google Drive File ID (replace with your file ID)
-file_id = "1P4iQFeJ2anMm9It9JrUuOKbgDoKhMYaa"
+file_id = "1R117iV9NlYYkeOwOpZllMN1xe22EAouZ"
 
 # Function to download the model
 def load_model_from_drive(file_id):
-    output = 'best_model.pkl'
+    output = 'model.pkl'
     try:
         url = f'https://drive.google.com/uc?id={file_id}'
         gdown.download(url, output, quiet=False)
