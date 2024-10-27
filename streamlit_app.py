@@ -11,7 +11,7 @@ file_id = "1P4iQFeJ2anMm9It9JrUuOKbgDoKhMYaa"  # Replace with your actual Google
 
 # Function to download the model and handle potential errors
 def load_model_from_drive(file_id):
-    output = 'vehicle_price_model.pkl'
+    output = 'best_model.pkl'
     try:
         url = f'https://drive.google.com/uc?id={file_id}'
         gdown.download(url, output, quiet=False)
