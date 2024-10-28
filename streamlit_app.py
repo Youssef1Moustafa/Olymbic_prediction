@@ -91,5 +91,5 @@ if st.session_state.history:
     st.plotly_chart(fig2)
 
 # Visualization 3: Input Data Table
-st.subheader("Input Data Preview")
+st.subheader("olymbic_cleaning.csv")
 st.write(input_data)
