@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import pickle
 import gdown
+import plotly.express as px  # For interactive charts
+import matplotlib.pyplot as plt
 
 # Google Drive File ID (replace with your file ID)
 file_id = "19_D8LCjdJ7z7TuuhLlGOCc5LpK_74hg4"
