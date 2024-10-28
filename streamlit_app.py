@@ -74,3 +74,20 @@ if st.button("Predict Outcome"):
         st.error(f"Prediction failed: {ve}")
     except Exception as e:
         st.error(f"An unexpected error occurred: {e}")
+# Visualization 1: Bar Chart of NOC Selections
+st.subheader("Distribution of NOC Selections")
+if st.session_state.history:
+    history_df = pd.DataFrame(st.session_state.history)
+    fig1 = px.histogram(history_df, x='NOC', title='NOC Selection Frequency', text_auto=True)
+    st.plotly_chart(fig1)
+
+# Visualization 2: Pie Chart of Prediction Outcomes
+st.subheader("Prediction Outcome Summary")
+if st.session_state.history:
+    outcome_counts = history_df['Prediction'].value_counts().reset_index()
+    fig2 = px.pie(outcome_counts, names='index', values='Prediction', title='Prediction Outcome Distribution')
+    st.plotly_chart(fig2)
+
+# Visualization 3: Input Data Table
+st.subheader("Input Data Preview")
+st.write(input_data)
